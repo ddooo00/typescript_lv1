@@ -33,6 +33,12 @@ function App(): JSX.Element {
       contents: "AWS 공부하기",
       isDone: false,
     },
+    {
+      id: uuid(),
+      title: "React",
+      contents: "React 공부하기",
+      isDone: false,
+    },
   ]);
 
   //form
