@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import uuid from "react-uuid";
+import styled from "styled-components";
 
 interface Todo {
   id: string;
@@ -15,26 +16,26 @@ function App(): JSX.Element {
   const [todos, setTodos] = useState<Todo[]>([
     {
       id: uuid(),
-      title: "제목1",
-      contents: "내용1",
+      title: "Typescript",
+      contents: "Typescript 공부하기",
       isDone: false,
     },
     {
       id: uuid(),
-      title: "제목2",
-      contents: "내용2",
+      title: "Typescript",
+      contents: "Typescript lv,1 과제하기",
       isDone: true,
     },
     {
       id: uuid(),
-      title: "제목3",
-      contents: "내용3",
-      isDone: true,
+      title: "AWS",
+      contents: "AWS 공부하기",
+      isDone: false,
     },
     {
       id: uuid(),
-      title: "제목4",
-      contents: "내용4",
+      title: "React",
+      contents: "React 공부하기",
       isDone: false,
     },
   ]);
@@ -49,6 +50,8 @@ function App(): JSX.Element {
       isDone: false,
     };
     setTodos([...todos, newTodo]);
+    setTitle("");
+    setContents("");
   };
 
   //인풋
@@ -78,7 +81,7 @@ function App(): JSX.Element {
     setTodos(finishTodos);
   };
   //취소버튼
-  const CancleButton = (id: string) => {
+  const CancelButton = (id: string) => {
     const finishTodos = todos.map((item) => {
       if (item.id === id) {
         return { ...item, isDone: false };
@@ -92,21 +95,17 @@ function App(): JSX.Element {
 
   return (
     <div>
-      <header style={{ backgroundColor: "green", padding: "10px" }}>
-        헤더입니다
-      </header>
-      <main style={{ backgroundColor: "pink", padding: "10px" }}>
-        메인입니다
+      <Main>
         <form onSubmit={SubmitTodo}>
           <div>
-            <input value={title} onChange={TitleChange} />
-            <input value={contents} onChange={ContentChange} />
-            <button>입력</button>
+            <Input value={title} onChange={TitleChange} />
+            <Input value={contents} onChange={ContentChange} />
+            <Addbutton>추가</Addbutton>
           </div>
         </form>
         <div>
           <div>
-            <h2>할일 목록</h2>
+            <h2>✏️할 일 목록✏️</h2>
             {todos
               .filter((todo) => {
                 return todo.isDone === false;
@@ -121,20 +120,22 @@ function App(): JSX.Element {
                     <h2>{todo.title}</h2>
                     <p>{todo.contents}</p>
                     <p>{todo.isDone.toString()}</p>
-                    <button onClick={() => DeleteButton(todo.id)}>삭제</button>
-                    <button
+                    <DeletedButton onClick={() => DeleteButton(todo.id)}>
+                      삭제
+                    </DeletedButton>
+                    <CompletedButton
                       onClick={() => {
                         CompleteButton(todo.id);
                       }}
                     >
                       완료
-                    </button>
+                    </CompletedButton>
                   </div>
                 );
               })}
           </div>
           <div>
-            <h2>해야할 일 목록</h2>
+            <h2>🥳끝난 목록🥳</h2>
 
             {todos
               .filter((todo) => {
@@ -150,25 +151,80 @@ function App(): JSX.Element {
                     <h2>{todo.title}</h2>
                     <p>{todo.contents}</p>
                     <p>{todo.isDone.toString()}</p>
-                    <button onClick={() => DeleteButton(todo.id)}>삭제</button>
-                    <button
+                    <DeletedButton onClick={() => DeleteButton(todo.id)}>
+                      삭제
+                    </DeletedButton>
+                    <CanceleddButton
                       onClick={() => {
-                        CancleButton(todo.id);
+                        CancelButton(todo.id);
                       }}
                     >
                       취소
-                    </button>
+                    </CanceleddButton>
                   </div>
                 );
               })}
           </div>
         </div>
-      </main>
-      <footer style={{ backgroundColor: "yellowgreen", padding: "10px" }}>
-        푸터입니다
-      </footer>
+      </Main>
     </div>
   );
 }
 
 export default App;
+
+// -------------------------스타일 컴포넌트--------------------------------
+
+const Main = styled.div`
+  background-color: #a3ccb8;
+  padding: 10px;
+`;
+
+const Input = styled.input`
+  width: 30%;
+  height: 25px;
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 10px;
+  margin-right: 5px;
+  &:hover {
+    background: cornflowerblue;
+    opacity: 0.6;
+    transition: 0.3s;
+  }
+`;
+
+const Addbutton = styled.button`
+  width: 80px;
+  height: 35px;
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 10px;
+  font-size: 15px;
+  fontw-wight: 800;
+  cursor: pointer;
+  &:hover {
+    background: cornflowerblue;
+    transition: 0.3s;
+    color: white;
+  }
+`;
+
+const DeletedButton = styled.button`
+  background-color: transparent;
+  border: 3px solid white;
+  margin-right: 5px;
+  cursor: pointer;
+`;
+
+const CompletedButton = styled.button`
+  background-color: transparent;
+  border: 3px solid white;
+  cursor: pointer;
+`;
+
+const CanceleddButton = styled.button`
+  background-color: transparent;
+  border: 3px solid white;
+  cursor: pointer;
+`;
