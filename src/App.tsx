@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import uuid from "react-uuid";
 import styled from "styled-components";
 
+//todo type
 interface Todo {
   id: string;
   title: string;
@@ -32,15 +33,9 @@ function App(): JSX.Element {
       contents: "AWS 공부하기",
       isDone: false,
     },
-    {
-      id: uuid(),
-      title: "React",
-      contents: "React 공부하기",
-      isDone: false,
-    },
   ]);
 
-  //폼
+  //form
   const SubmitTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newTodo: Todo = {
@@ -54,7 +49,7 @@ function App(): JSX.Element {
     setContents("");
   };
 
-  //인풋
+  //input
   const TitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -63,13 +58,13 @@ function App(): JSX.Element {
     setContents(event.target.value);
   };
 
-  //삭제버튼
+  //삭제 버튼
   const DeleteButton = (id: string) => {
     const deleteTodos = todos.filter((item) => item.id !== id);
     setTodos(deleteTodos);
   };
 
-  //완료버튼
+  //완료 버튼
   const CompleteButton = (id: string) => {
     const finishTodos = todos.map((item) => {
       if (item.id === id) {
@@ -80,7 +75,7 @@ function App(): JSX.Element {
     });
     setTodos(finishTodos);
   };
-  //취소버튼
+  //취소 버튼
   const CancelButton = (id: string) => {
     const finishTodos = todos.map((item) => {
       if (item.id === id) {
@@ -94,7 +89,7 @@ function App(): JSX.Element {
   //----------------------------------------------------------------------
 
   return (
-    <div>
+    <Container>
       <Main>
         <form onSubmit={SubmitTodo}>
           <div>
@@ -167,7 +162,7 @@ function App(): JSX.Element {
           </div>
         </div>
       </Main>
-    </div>
+    </Container>
   );
 }
 
@@ -175,9 +170,14 @@ export default App;
 
 // -------------------------스타일 컴포넌트--------------------------------
 
+const Container = styled.div`
+  padding: 0;
+  margin: 0;
+`;
 const Main = styled.div`
   background-color: #a3ccb8;
   padding: 10px;
+  height: 100vh;
 `;
 
 const Input = styled.input`
@@ -188,7 +188,7 @@ const Input = styled.input`
   border-radius: 10px;
   margin-right: 5px;
   &:hover {
-    background: cornflowerblue;
+    background: green;
     opacity: 0.6;
     transition: 0.3s;
   }
@@ -204,7 +204,7 @@ const Addbutton = styled.button`
   fontw-wight: 800;
   cursor: pointer;
   &:hover {
-    background: cornflowerblue;
+    background: green;
     transition: 0.3s;
     color: white;
   }
@@ -212,19 +212,23 @@ const Addbutton = styled.button`
 
 const DeletedButton = styled.button`
   background-color: transparent;
-  border: 3px solid white;
+  border: 2px solid white;
   margin-right: 5px;
   cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: 5px;
 `;
 
 const CompletedButton = styled.button`
   background-color: transparent;
-  border: 3px solid white;
+  border: 2px solid white;
   cursor: pointer;
+  margin-bottom: 5px;
 `;
 
 const CanceleddButton = styled.button`
   background-color: transparent;
-  border: 3px solid white;
+  border: 2px solid white;
   cursor: pointer;
+  margin-bottom: 5px;
 `;
