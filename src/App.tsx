@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import uuid from "react-uuid";
 
-function App() {
-  const [title, setTitle] = useState("");
-  const [contents, setContents] = useState("");
+interface Todo {
+  id: string;
+  title: string;
+  contents: string;
+  isDone: boolean;
+}
 
-  const [todos, setTodos] = useState([
+function App() {
+  const [title, setTitle] = useState<string>("");
+  const [contents, setContents] = useState<string>("");
+
+  const [todos, setTodos] = useState<Todo[]>([
     {
       id: uuid(),
       title: "제목1",
@@ -32,6 +39,28 @@ function App() {
     },
   ]);
 
+  //폼
+  const SubmitTodo = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newTodo: Todo = {
+      id: uuid(),
+      title: title,
+      contents: contents,
+      isDone: false,
+    };
+    setTodos([...todos, newTodo]);
+  };
+
+  //인풋
+  const TitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const ContentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setContents(event.target.value);
+  };
+  //----------------------------------------------------------------------
+
   return (
     <div>
       <header style={{ backgroundColor: "green", padding: "10px" }}>
@@ -39,31 +68,10 @@ function App() {
       </header>
       <main style={{ backgroundColor: "pink", padding: "10px" }}>
         메인입니다
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const newTodo = {
-              id: uuid(),
-              title: title,
-              contents: contents,
-              isDone: false,
-            };
-            setTodos([...todos, newTodo]);
-          }}
-        >
+        <form onSubmit={SubmitTodo}>
           <div>
-            <input
-              value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-              }}
-            />
-            <input
-              value={contents}
-              onChange={(event) => {
-                setContents(event.target.value);
-              }}
-            />
+            <input value={title} onChange={TitleChange} />
+            <input value={contents} onChange={ContentChange} />
             <button>입력</button>
           </div>
         </form>
@@ -159,7 +167,7 @@ function App() {
           </div>
         </div>
       </main>
-      <footer style={{ backgroundColor: "yellowgreen", padding: "10px" }} r>
+      <footer style={{ backgroundColor: "yellowgreen", padding: "10px" }}>
         푸터입니다
       </footer>
     </div>
