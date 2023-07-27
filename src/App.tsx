@@ -8,7 +8,7 @@ interface Todo {
   isDone: boolean;
 }
 
-function App() {
+function App(): JSX.Element {
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
 
@@ -29,7 +29,7 @@ function App() {
       id: uuid(),
       title: "제목3",
       contents: "내용3",
-      isDone: false,
+      isDone: true,
     },
     {
       id: uuid(),
@@ -58,6 +58,35 @@ function App() {
 
   const ContentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
+  };
+
+  //삭제버튼
+  const DeleteButton = (id: string) => {
+    const deleteTodos = todos.filter((item) => item.id !== id);
+    setTodos(deleteTodos);
+  };
+
+  //완료버튼
+  const CompleteButton = (id: string) => {
+    const finishTodos = todos.map((item) => {
+      if (item.id === id) {
+        return { ...item, isDone: true };
+      } else {
+        return item;
+      }
+    });
+    setTodos(finishTodos);
+  };
+  //취소버튼
+  const CancleButton = (id: string) => {
+    const finishTodos = todos.map((item) => {
+      if (item.id === id) {
+        return { ...item, isDone: false };
+      } else {
+        return item;
+      }
+    });
+    setTodos(finishTodos);
   };
   //----------------------------------------------------------------------
 
@@ -92,26 +121,10 @@ function App() {
                     <h2>{todo.title}</h2>
                     <p>{todo.contents}</p>
                     <p>{todo.isDone.toString()}</p>
+                    <button onClick={() => DeleteButton(todo.id)}>삭제</button>
                     <button
                       onClick={() => {
-                        const deleteTodos = todos.filter((item) => {
-                          return item.id !== todo.id;
-                        });
-                        setTodos(deleteTodos);
-                      }}
-                    >
-                      삭제
-                    </button>
-                    <button
-                      onClick={() => {
-                        const finishTodos = todos.map((item) => {
-                          if (item.id === todo.id) {
-                            return { ...item, isDone: true };
-                          } else {
-                            return item;
-                          }
-                        });
-                        setTodos(finishTodos);
+                        CompleteButton(todo.id);
                       }}
                     >
                       완료
@@ -137,26 +150,10 @@ function App() {
                     <h2>{todo.title}</h2>
                     <p>{todo.contents}</p>
                     <p>{todo.isDone.toString()}</p>
+                    <button onClick={() => DeleteButton(todo.id)}>삭제</button>
                     <button
                       onClick={() => {
-                        const deleteTodos = todos.filter((item) => {
-                          return item.id !== todo.id;
-                        });
-                        setTodos(deleteTodos);
-                      }}
-                    >
-                      삭제
-                    </button>
-                    <button
-                      onClick={() => {
-                        const finishTodos = todos.map((item) => {
-                          if (item.id === todo.id) {
-                            return { ...item, isDone: false };
-                          } else {
-                            return item;
-                          }
-                        });
-                        setTodos(finishTodos);
+                        CancleButton(todo.id);
                       }}
                     >
                       취소
