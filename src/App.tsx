@@ -171,13 +171,13 @@ export default App;
 // -------------------------스타일 컴포넌트--------------------------------
 
 const Container = styled.div`
-  padding: 0;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 1200px;
+  min-width: 800px;
 `;
 const Main = styled.div`
   background-color: #a3ccb8;
   padding: 10px;
-  height: 100vh;
 `;
 
 const Input = styled.input`
